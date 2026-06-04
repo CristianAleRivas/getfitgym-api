@@ -10,6 +10,8 @@ const asistenciasRoutes = require('./asistenciasRoutes');
 const inventarioRoutes = require('./inventarioRoutes');
 const reportesRoutes = require('./reportesRoutes'); 
 const catalogosRoutes = require('./catalogosRoutes'); 
+const pagosRoutes = require('./pagosRoutes');
+const ventasRoutes = require('./ventasRoutes');
 
 const router = express.Router();
 
@@ -23,5 +25,7 @@ router.use('/asistencias', asistenciasRoutes);
 router.use('/inventario', inventarioRoutes);
 router.use('/reportes', reportesRoutes); 
 router.use('/catalogos', catalogosRoutes); 
+router.use('/ventas', ventasRoutes);
+router.use('/pagos', pagosRoutes);
 
 module.exports = router;
