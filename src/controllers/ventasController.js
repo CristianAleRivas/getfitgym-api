@@ -20,7 +20,7 @@ const create = asyncHandler(async (req, res) => {
   const t = await sequelize.transaction();
 
   try {
-    const { metodo_pago_id, items } = req.body;
+    const { items } = req.body;
 
     if (!Array.isArray(items) || items.length === 0) {
       await t.rollback();
@@ -66,7 +66,6 @@ const create = asyncHandler(async (req, res) => {
 
     const venta = await Venta.create({
       usuario_id: req.user?.id || null,
-      metodo_pago_id,
       fecha_venta: new Date(),
       total
     }, { transaction: t });

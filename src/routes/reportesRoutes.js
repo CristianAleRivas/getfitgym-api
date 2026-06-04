@@ -41,4 +41,13 @@ router.get('/asistencias', auth, authorizeRoles('Administrador'), controller.asi
  */
 router.get('/ingresos-mensuales', auth, authorizeRoles('Administrador'), controller.ingresosMensuales);
 
+/**
+ * @swagger
+ * /api/reportes/productos-mas-vendidos:
+ *   get:
+ *     tags: [Reportes]
+ *     summary: Top 3 productos más vendidos del mes actual
+ */
+router.get('/productos-mas-vendidos', auth, authorizeRoles('Administrador'), controller.topProductosMasVendidos);
+
 module.exports = router;

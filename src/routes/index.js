@@ -26,6 +26,6 @@ router.use('/inventario', inventarioRoutes);
 router.use('/reportes', reportesRoutes); 
 router.use('/catalogos', catalogosRoutes); 
 router.use('/ventas', ventasRoutes);
-router.use('/pagos', pagosRoutes);
+router.use('/pagos', pagosRoutes);  
 
 module.exports = router;

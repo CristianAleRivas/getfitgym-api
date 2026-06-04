@@ -21,6 +21,14 @@ function rangoFechas(desde, hasta) {
   return where;
 }
 
+function rangoMesActual() {
+  const ahora = new Date();
+  const inicio = new Date(ahora.getFullYear(), ahora.getMonth(), 1);
+  const fin = new Date(ahora.getFullYear(), ahora.getMonth() + 1, 0, 23, 59, 59, 999);
+
+  return { inicio, fin, mes: ahora.getMonth() + 1, anio: ahora.getFullYear() };
+}
+
 const pagos = asyncHandler(async (req, res) => {
   const { desde, hasta, cliente_id, plan_id } = req.query;
   const wherePago = {};
@@ -118,9 +126,59 @@ const ingresosMensuales = asyncHandler(async (req, res) => {
   });
 });
 
+const topProductosMasVendidos = asyncHandler(async (req, res) => {
+  const { inicio, fin, mes, anio } = rangoMesActual();
+
+  const data = await DetalleVenta.findAll({
+    attributes: [
+      'producto_id',
+      [fn('SUM', col('DetalleVenta.cantidad')), 'total_vendidos']
+    ],
+    include: [
+      {
+        model: Producto,
+        attributes: ['id', 'nombre', 'descripcion', 'precio', 'stock', 'categoria_id', 'activo']
+      },
+      {
+        model: Venta,
+        attributes: [],
+        required: true,
+        where: {
+          fecha_venta: {
+            [Op.gte]: inicio,
+            [Op.lte]: fin
+          }
+        }
+      }
+    ],
+    group: [
+      'DetalleVenta.producto_id',
+      'Producto.id'
+    ],
+    order: [[literal('total_vendidos'), 'DESC']],
+    limit: 3,
+    raw: false
+  });
+
+  const top = data.map((item, index) => ({
+    top: index + 1,
+    total_vendidos: Number(item.getDataValue('total_vendidos')),
+    producto: item.Producto
+  }));
+
+  return res.json({
+    ok: true,
+    data: {
+      periodo: { mes, anio },
+      top
+    }
+  });
+});
+
 module.exports = {
   pagos,
   ventas,
   asistencias,
-  ingresosMensuales
+  ingresosMensuales,
+  topProductosMasVendidos
 };
