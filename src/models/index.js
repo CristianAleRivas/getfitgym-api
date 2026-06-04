@@ -111,7 +111,6 @@ const MovimientoInventario = sequelize.define('MovimientoInventario', {
 const Venta = sequelize.define('Venta', {
   id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
   usuario_id: { type: DataTypes.BIGINT },
-  metodo_pago_id: { type: DataTypes.BIGINT, allowNull: false },
   fecha_venta: { type: DataTypes.DATE, allowNull: false },
   total: { type: DataTypes.DECIMAL(10, 2), allowNull: false }
 }, { tableName: 'ventas' });

@@ -159,7 +159,6 @@ CREATE TABLE IF NOT EXISTS movimientos_inventario (
 CREATE TABLE IF NOT EXISTS ventas (
     id BIGSERIAL PRIMARY KEY,
     usuario_id BIGINT,
-    metodo_pago_id BIGINT NOT NULL,
     fecha_venta TIMESTAMP NOT NULL,
     total NUMERIC(10,2) NOT NULL,
     FOREIGN KEY(usuario_id) REFERENCES usuarios(id)
